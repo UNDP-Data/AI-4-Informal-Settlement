@@ -19,7 +19,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-from accra.dataset_preparation import utils_funcs
+from dataset_preparation import utils_funcs
 
 
 #--------------- Raster processing ---------------
@@ -28,9 +28,9 @@ from accra.dataset_preparation import utils_funcs
 # STEP 1
 # # Chop polygons into tiles for clipping 
 
-input_shp = 'D:/GWU/ML4DAM/data/accra/acc_SHP/Tiles_1000m_clip.shp'
-output_shp = 'D:/GWU/ML4DAM/data/accra/temp/ClipPolygon/'
-prefix = 'acc'
+input_shp = 'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/nai_SHP/Nairobi_Tiles_Polygon_NoIS.shp'
+output_shp = 'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/temp/ClipPolygon/'
+prefix = 'nai'
 utils_funcs.PolyTiles(input_shp, output_shp, prefix)
 
 
@@ -42,7 +42,7 @@ utils_funcs.PolyTiles(input_shp, output_shp, prefix)
 # Get list of tif files
 # Path for image list
 # FPATH = '/media/owusu/Extreme SSD/gim_22/nairobi/'
-files = sorted(glob(f'D:/GWU/ML4DAM/data/accra/accra_spfeas_10m/*/*.tif'))
+files = sorted(glob(f'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/nai_contextual_features_2022/*/*.tif'))
 
 # Remove unwanted tif.
 # files.remove('/media/owusu/Extreme SSD/gim_22/nairobi/KE_Nairobi_19Q2_V0_BROWSE.tif')
@@ -51,15 +51,16 @@ files = sorted(glob(f'D:/GWU/ML4DAM/data/accra/accra_spfeas_10m/*/*.tif'))
 
 In_Raster_list = files
 # outputSRS = 'EPSG:4326'
-Outfile = f'D:/GWU/ML4DAM/data/accra/acc_spfea.vrt'
+Outfile = f'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/spfea.vrt'
 utils_funcs.TiffToVRT(In_Raster_list, Outfile,)
 
 # %%
 # STEP 3
 # Clip raster using polygon Tiles
-polygons = sorted(glob('D:/GWU/ML4DAM/data/accra/temp/ClipPolygon/*.shp'))
-VRT = f'D:/GWU/ML4DAM/data/accra/acc_spfea.vrt'
-outfile = 'D:/GWU/ML4DAM/data/accra/final/spfea/'
+polygons = sorted(glob('C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/temp/ClipPolygon/*.shp'))
+# VRT = f'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/spfea.vrt'
+VRT = f'D:/GWU/ML4DAM/data/nairobi/spfea_144.vrt'
+outfile = 'D:/GWU/ML4DAM/data/nairobi/final/spfea_144/'
 # print(polygons)
 
 for polygon in polygons:
@@ -78,7 +79,7 @@ for polygon in polygons:
 # STEP 4
 # check for constant height and width
 
-files = sorted(glob("D:/GWU/ML4DAM/data/accra/final/spfea/*.tif"))
+files = sorted(glob("C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/final/spfea/*.tif"))
 num = 0
 for raster in files:
     # print(reference_raster)
@@ -95,10 +96,10 @@ for raster in files:
 # %%
 # Clip polygons into Tiles 
 
-polygons = 'D:/GWU/ML4DAM/data/accra/temp/ClipPolygon/*.shp'
-input_shp = 'D:/GWU/ML4DAM/data/accra/acc_SHP/Tiles_1000m.shp'
-outfile = 'D:/GWU/ML4DAM/data/accra/temp/IS_Tiles'
-prefix = 'acc'
+polygons = 'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/temp/ClipPolygon/*.shp'
+input_shp = 'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/nai_SHP/Nairobi_Tiles_Clip.shp'
+outfile = 'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/temp/IS_Tiles'
+prefix = 'Nai'
 
 utils_funcs.ClipVector(in_vector=input_shp, clip=polygons, outfile=outfile, prefix='nai')
 
@@ -127,6 +128,9 @@ utils_funcs.ClipVector(in_vector=input_shp, clip=polygons, outfile=outfile, pref
 #     Popen (command, shell=True)
 # %%
 
+polygons = sorted(glob('C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/temp/IS_Tiles/*.shp'))
+RasterTiles = sorted(glob("C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/final/spfea/*.tif"))
+outfile = 'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/final/mask/'
 
 # zip polygon and raster in to a list of tuple 
 shp_rast = zip (polygons, RasterTiles)
@@ -161,10 +165,13 @@ def rasterize_me(in_shp, in_raster, outfile):
                         'w', **out_profile) as dst:
             dst.write_band(1, burned)
 
-polygons = sorted(glob('D:/GWU/ML4DAM/data/accra/temp/IS_Tiles/*.shp'))
-RasterTiles = sorted(glob("D:/GWU/ML4DAM/data/accra/final/spfea/*.tif"))
-outfile = 'D:/GWU/ML4DAM/data/accra/final/mask/'
+# polygons = sorted(glob('/home/owusu/Documents/AI4IS/data/Nairobi/temp/IS_Tiles/*.shp'))
+# RasterTiles = sorted(glob("/home/owusu/Documents/AI4IS/data/Nairobi/final/raw_image1/*.tif"))
+# outfile = '/home/owusu/Documents/AI4IS/data/Nairobi/final/mask_image1/'
 
+polygons = sorted(glob('C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/temp/IS_Tiles/*.shp'))
+RasterTiles = sorted(glob("C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/final/spfea/*.tif"))
+outfile = 'C:/Users/mowus/Documents/GWU/gwu_work/ML4DAM/data/nairobi/final/mask/'
 
 rasterize_me(in_shp=polygons, in_raster=RasterTiles, outfile=outfile)
 # %%
