@@ -17,16 +17,16 @@ The work required on free and open-source software and packages for geospatial p
 The workflow takes in Raster dataset. Mask layer that represent label and the input satellite image. It is strucutred in the (image, mask) pair. the image is typically a georeferenced earth observation photograph (satellite or aerial).
 
 ### Preprocessing 
-```
+
 create_mask_layer.py : Use for creating the mask layer from from groundthruth. it takes shapefile or geojson and the corresponding raster data
 prepare_spfea.py : Use to prepare image features for modeling 
-```
+
 
 ### Model
 Several model were carried out in this project. The gradient boosting folder contains XGBOOST workflow. The DeepLearning folder contain the implemented GIM model and Fully Convolutionl Nueral (FCN) Network model.
-```
+
 modeling.ipynb : pipeline for gradient boosting model. Found the gradient bossting folder
 FCN_model.ipynb : pipeline for FCN model 
 gim_cv : pipeline for GIM model. it starts from training to inference.
 gim_inference : code for making inference from trained models. 
-```
+
