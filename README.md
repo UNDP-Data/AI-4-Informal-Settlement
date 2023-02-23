@@ -3,7 +3,8 @@ The UNDP requires high resolution maps and granular statistics - on informal set
 
 This project is a proof of concept to comprehensively map informal urban settlements using Artificial Intelligence-based toolchain applied to Earth Observation Data.The project relies on low cost solutions focusing on Freely available Sentinel-2 and open-source tool  to map informal settlements and slums. 
 
-## Installation
+## Getting Started 
+### Installation
 The work required on free and open-source software and packages for geospatial proessig and analysis. These packages can be install with the attached AI4IS_env.yaml file. In addition Python, the following packages are needed. 
 - Gdal 
 - Rasterio
@@ -12,7 +13,6 @@ The work required on free and open-source software and packages for geospatial p
 - XGBoost
 - Sklearn
 
-## Getting Started 
 ### Datasets
 The workflow takes in Raster dataset. Mask layer that represent label and the input satellite image. It is strucutred in the (image, mask) pair. the image is typically a georeferenced earth observation photograph (satellite or aerial).
 
